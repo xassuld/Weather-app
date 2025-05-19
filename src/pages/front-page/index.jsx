@@ -1,19 +1,18 @@
-import { House } from "lucide-react";
-import { MapPin } from "lucide-react";
-import { Heart } from "lucide-react";
-import { User } from "lucide-react";
-import { Search } from "lucide-react";
+import { House, MapPin, Heart, User, Search } from "lucide-react";
+import { useState } from "react";
 
 const WeatherApp = () => {
+  const [searchText, setSearchText] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center relative">
       {/* Orange Ball */}
-      <div className="absolute top-[120px] left-[265px] flex">
+      <div className="absolute top-[120px] left-[265px] flex z-10">
         <img src="orange-ball.png" alt="" className="w-[176px] h-[176px]" />
       </div>
 
       {/* Purple Ball */}
-
       <div className="absolute bottom-[120px] right-[265px] flex z-10">
         <img src="purple-ball.png" alt="" className="w-[176px] h-[176px]" />
       </div>
@@ -25,16 +24,41 @@ const WeatherApp = () => {
       </div>
 
       {/* Start of Sun Card */}
-      <div className=" h-screen w-1/2 bg-[#F3F4F6FB] flex flex-col justify-center items-center">
+      <div className="h-screen w-1/2 bg-[#F3F4F6FB] flex flex-col justify-center items-center relative">
         {/* Search Bar */}
-        <div className=" bg-white w-[567px] flex gap-[16px] rounded-[48px] py-[16px] px-[25px] absolute mt-[-1020px] ml-[1100px] z-30 ">
-          <Search className="w-[48px] h-[48px]" />
-          <input
-            type="text"
-            className="w-full text-[32px] font-[700] focus:outline-0"
-            placeholder="Search"
-          />
+        <div className="absolute top-[20px] left-[105px] flex justify-center w-full z-30">
+          <div className="absolute top-[60px] flex justify-start w-full z-30">
+            <div className="w-[567px] ml-[61px] flex flex-col gap-[8px]">
+              <div className="flex gap-[16px] rounded-[48px] py-[16px] px-[25px] bg-white shadow-md">
+                <Search className="w-[48px] h-[48px]" />
+                <input
+                  type="text"
+                  className="w-full text-[32px] font-[700] focus:outline-0"
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => {
+                    setSearchText(e.target.value);
+                    setShowSuggestions(e.target.value !== "");
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      console.log(searchText);
+                    }
+                  }}
+                />
+              </div>
+              {showSuggestions && (
+                <div className="bg-[#ffffff80] rounded-[24px] p-[16px] shadow-lg">
+                  <div className="flex gap-[16px] items-center">
+                    <MapPin color="gray" className="w-[24px] h-[32px]" />
+                    <p className="text-[28px] font-[700]">{searchText}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+
         {/* CARD */}
         <div className="w-[414px] h-[828px] rounded-[48px] bg-white/75 shadow-2xl z-20">
           <div className="w-full flex flex-col py-[56px]">
